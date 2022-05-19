@@ -29,8 +29,18 @@ def bandPassfilter(signal):
 
 filtered_signal = bandPassfilter(data)
 
-# plt.plot(time,data)
-# plt.show()
+#UPDATED - possible use for savgol filter for moving average. 
+moving_average = savgol_filter(filtered_signal, 5, 1)
 
+
+plt.figure(1)
+ax1=plt.subplot(221)
+plt.plot(time,data)
+
+ax2 = plt.subplot(222)
 plt.plot(time,filtered_signal)
+
+ax3 = plt.subplot(223)
+plt.plot(time, moving_average)
+plt.tight_layout()
 plt.show()
