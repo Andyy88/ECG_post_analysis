@@ -1,0 +1,27 @@
+import heartpy as hp
+import matplotlib.pyplot as plt
+
+import pandas as pd
+
+mydata = pd.read_csv("Noisy_data.csv")
+
+data = mydata['heart rate'].values
+time = mydata['time'].values
+
+fs = 100.0
+filtered = hp.filter_signal(data, cutoff=[5.0, 35.0], sample_rate=100, order=5, filtertype='bandpass')
+smooth_filter = hp.smooth_signal(filtered, sample_rate=100, window_length=2, polyorder=1)
+
+wd, m = hp.process(smooth_filter, welch_wsize=150, sample_rate=100.0)
+
+# print(measures['bpm'])
+plt.figure(1)
+ax1 = plt.subplot(321)
+plt.plot(time, filtered)
+
+ax2 = plt.subplot(322)
+plt.plot(time, smooth_filter)
+
+hp.plotter(wd, m)
+
+plt.show()
